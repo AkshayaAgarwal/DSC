@@ -22,7 +22,14 @@
 		    
 		}
 	}
-	void selection sort(int a[], int n)
+void printarray(int a[], int n)
+{
+int i;
+for (i = 0; i < n; i++)
+printf("%d ", a[i]);
+printf("\n");
+}
+	void selectionsort(int a[], int n)
 	{
 		int i=0,j=0,k,temp;
 		int min = a[0];
@@ -30,7 +37,7 @@
 		{
 		for(j=i+1;j<n+1;j++)
 		{
-			s
+			 
 			if(a[i]>a[j])
 			{
 				
@@ -46,7 +53,9 @@ void main()
     printf("\n1- Tell the size \n");
     printf("2- display elements before sort of array\n");
     printf("3- Sort using bubble sort\n");
-    printf("4- Want to go, choose this option\n");
+    printf("4.Sort using selection sort\n");
+    printf("5- Print array\n");
+    printf("6- Want to go, choose this option\n");
     printf("Enter Choice\n");
     printf("!!!!!!!!!!!!!!!!!!!!\n");
 		
@@ -73,7 +82,11 @@ void main()
 			case 3:
 				bubblesort(a,n);
 				break;
-			case 4:exit(0);
+			case 4: selectionsort(a,n);
+			break;
+			case 5: printarray(a,n);
+			break;
+			case 6:exit(0);
 		default:
 			printf("Wrong choice ");
 	}
