@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct node {
     int data;
@@ -7,6 +8,7 @@ struct node {
 };
 
 int found = 0;
+
 struct node* newNode(int data) {
     struct node* node = (struct node*)malloc(sizeof(struct node));
     node->data = data;
@@ -15,6 +17,24 @@ struct node* newNode(int data) {
     return(node);
 }
 
+void insert(struct node *root, int data) {
+    if (data < root->data) {
+        if (root->left == NULL) {
+            root->left = newNode(data);
+        }
+        else {
+            insert(root->left, data);
+        }
+    }
+    else if (data > root->data) {
+        if (root->right == NULL) {
+            root->right = newNode(data);
+        }
+        else {
+            insert(root->right, data);
+        }
+    }
+}
 
 void preorder(struct node *root) {
     if (root != NULL) {
@@ -35,14 +55,12 @@ void inorder(struct node *root) {
 void search(struct node *root, int src) {
     if (root != NULL) {
         search(root->left,src);
-        if(root->data == src)
-        {
+        if(root->data == src) {
         	found = 1;
 		}
         search(root->right,src);
     }
 }
-
 
 void postorder(struct node *root) {
     if (root != NULL) {
@@ -53,56 +71,73 @@ void postorder(struct node *root) {
 }
 
 int main() {
-	int src;
-    struct node *root = newNode(27);
-    root->left = newNode(14);
-    root->right = newNode(35);
-    root->left->left = newNode(10);
-    root->left->right = newNode(19);
-    root->right->left = newNode(31);
-    root->right->right = newNode(42);
+    int choice, data, src;
+    struct node *root = NULL;
+     while (1) { 
+    printf("\nMenu:\n");
+    printf("1. Insert node\n");
+    printf("2. Preorder Traversal\n");
+    printf("3. Inorder Traversal\n");
+    printf("4. Postorder Traversal\n");
+    printf("5. Search a number\n");
+    printf("6. Exit\n");
     
-    int choice;
-    printf("Menu:\n");
-    printf("1. Preorder Traversal\n");
-    printf("2. Inorder Traversal\n");
-    printf("3. Postorder Traversal\n");
-    printf("4. Search a number\n");
-    printf("4. Exit\n");
-    do {
-        printf("\nEnter your choice: ");
-        scanf("%d", &choice);
+    
+      if (scanf("%d", &choice) != 1) {
+            printf("Invalid input. Please enter a number.\n");
+            while (getchar() != '\n');
+            continue;
+        }
+        
         switch (choice) {
             case 1:
+                printf("\nEnter the data to insert: ");
+                scanf("%d", &data);
+                if (root == NULL) {
+                    root = newNode(data);
+                }
+                else {
+                    insert(root, data);
+                }
+                break;
+                
+            case 2:
                 printf("\nPreorder Traversal: ");
                 preorder(root);
                 break;
-            case 2:
+                
+            case 3:
                 printf("\nInorder Traversal: ");
                 inorder(root);
                 break;
-            case 3:
+                
+            case 4:
                 printf("\nPostorder Traversal: ");
                 postorder(root);
                 break;
-            case 4: 
-        
-            printf("enter the no to search ");
-            scanf("%d", &src);
-            found = 0;
-            search(root,src);
-            if(found == 1){
-            	printf("element found");
-			}
-			else printf("element not found");
-			break;
-            case 5:
-                printf("\nExiting program...\n");
+                
+            case 5: 
+                printf("\nEnter the number to search: ");
+                scanf("%d", &src);
+                found = 0;
+                search(root,src);
+                if(found == 1) {
+                	printf("Element found");
+				}
+				else {
+					printf("Element not found");
+				}
+				break;
+                
+            case 6:
+               exit(0);
                 break;
+                
             default:
                 printf("\nInvalid choice. Please try again.\n");
         }
-    } while (choice != 4);
+    } while (choice != 6);
     
     return 0;
 }
+
